@@ -184,7 +184,13 @@
 
             <div class="contact-grid">
                 <div class="contact-form-wrapper">
-                    <form class="contact-form" id="contactForm">
+                    <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                        <!-- Web3Forms Access Key (PUBLIC - safe to expose) -->
+                        <input type="hidden" name="access_key" value="e549a701-abc5-4e7c-9537-79efd76bed1f">
+
+                        <!-- Honeypot Field (Bot Trap - invisible to humans) -->
+                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="firstName">First Name</label>
@@ -203,7 +209,19 @@
                             <label for="message">Message</label>
                             <textarea id="message" name="message" placeholder="Message" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+
+                        <!-- hCaptcha Widget (FREE Spam Protection) -->
+                        <div class="h-captcha" data-captcha="true"></div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loader" style="display: none;">
+                                <span class="spinner"></span> Sending...
+                            </span>
+                        </button>
+
+                        <!-- Status Messages -->
+                        <div id="formStatus" class="form-status" style="display: none;"></div>
                     </form>
                 </div>
 
@@ -273,24 +291,7 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            const subject = encodeURIComponent('Contact Form: ' + firstName + ' ' + lastName);
-            const body = encodeURIComponent(
-                'Name: ' + firstName + ' ' + lastName + '\n' +
-                'Email: ' + email + '\n\n' +
-                'Message:\n' + message
-            );
-
-            window.location.href = 'mailto:appskiesltd@gmail.com?subject=' + subject + '&body=' + body;
-        });
-    </script>
+    <!-- Web3Forms Client Script with hCaptcha Support -->
+    <script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>
